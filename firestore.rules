@@ -12,6 +12,12 @@ service cloud.firestore {
         && request.auth.token.email_verified == true;
     }
 
+    // الزائر المجهول: قراءة المحتوى العام فقط، بلا صلاحيات كتابة أو مراسلة.
+    function isAnonymousGuest() {
+      return request.auth != null
+        && request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
+
     // جلسة موجودة بغض النظر عن التوثيق — تُستخدم فقط حيث يجب أن تنجح كتابة
     // لحظة إنشاء الحساب (ملف المستخدم يُنشأ قبل وصول رسالة التوثيق).
     function isAuthed() {
@@ -103,7 +109,9 @@ service cloud.firestore {
           && resource.data.get('userId', '') != ''
           && resource.data.userId == request.auth.uid;
       }
-      allow read: if isSignedIn();
+      // إعلانات الحراج ومرفقات صورها محتوى عام للعرض فقط.
+      // الزائر المجهول يقرأها، لكن لا يحصل على أي صلاحية تعديل أو نشر.
+      allow read: if isSignedIn() || isAnonymousGuest();
       allow create: if isSignedIn()
                     && request.resource.data.keys().hasAll(['title', 'price'])
                     && request.resource.data.status == 'active'
