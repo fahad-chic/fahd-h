@@ -59,7 +59,7 @@ VITE_STORE_DESCRIPTION = "متجر شامل وحراج إعلانات موثوق
 VITE_SHIPPING_FEE = "20"
 VITE_FREE_SHIPPING_MIN = "500"
 VITE_RETURN_POLICY_DAYS = "7"
-OTP_ENFORCED = "true"
+OTP_ENFORCED = "false"
 # ضع هنا عنواناً من نطاق موثّق في Resend قبل تفعيل OTP في الإنتاج.
 OTP_FROM_EMAIL = ""
 STORE_NAME = "المسيمير | ALMUSAYMIR"
